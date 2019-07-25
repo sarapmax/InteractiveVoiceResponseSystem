@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using InteractiveVoiceResponseSystem.Areas.Instructor.Models.NewVersionHintsDB;
-using InteractiveVoiceResponseSystem.Areas.Instructor.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace InteractiveVoiceResponseSystem.Areas.Instructor.Controllers
 {
@@ -57,25 +55,6 @@ namespace InteractiveVoiceResponseSystem.Areas.Instructor.Controllers
         
         private IList<QuestionGroupTree> BuildQuestionTree(string topParent)
         {
-//            var tree = new Tree
-//            {
-//                Nodes = _newVersionHintsDbContext.QuestionGroupTree
-//                    .Where(qgt => qgt.CNodeType == topParent)
-//                    .Select(qgt => new QuestionGroupTree
-//                    {
-//                        CNodeId = qgt.CNodeId,
-//                        CParentId = qgt.CParentId,
-//                        CNodeName = qgt.CNodeName,
-//                        Children = FlatToHierarchy()
-//                    })
-//                    .ToDictionary(qgt => qgt.Id),
-//                RootNode = new TreeNode { Id = 0, Name = "Root" }
-//            };
-//
-//            tree.BuildTree();
-////
-//            return tree;
-
             var list = _newVersionHintsDbContext.QuestionGroupTree.Where(qgt => qgt.CNodeType == topParent).ToList();
 
             return FlatToHierarchy(list, topParent);
@@ -91,30 +70,5 @@ namespace InteractiveVoiceResponseSystem.Areas.Instructor.Controllers
                     Children = FlatToHierarchy(list, i.CNodeId)
                 }).ToList();
         }
-        
-//        public IEnumerable<QuestionGroupTree> FlatToHierarchy(List<QuestionGroupTree> list)
-//        {
-//            // hashtable lookup that allows us to grab references to containers based on id
-//            var lookup = new Dictionary<string, QuestionGroupTree>();
-//            // actual nested collection to return
-//            var nested = new List<QuestionGroupTree>();
-//
-//            foreach (var item in list)
-//            {
-//                if (lookup.ContainsKey(item.CParentId))
-//                {
-//                    // add to the parent's child list 
-//                    lookup[item.CParentId].Children.Add(item);
-//                }
-//                else
-//                {
-//                    // no parent added yet (or this is the first time)
-//                    nested.Add(item);
-//                }
-//                lookup.Add(item.CNodeId, item);
-//            }
-//
-//            return nested;
-//        }
     }
 }
