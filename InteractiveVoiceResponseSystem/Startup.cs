@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InteractiveVoiceResponseSystem.Areas.Instructor.Models.MLASDB;
+using InteractiveVoiceResponseSystem.Areas.Instructor.Models.NewVersionHintsDB;
+using InteractiveVoiceResponseSystem.Areas.Instructor.Models.ORCSDB;
 using InteractiveVoiceResponseSystem.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +37,10 @@ namespace InteractiveVoiceResponseSystem
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            
+            services.AddDbContext<NewVersionHintsDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("NewVersionHintsDB")));
+            services.AddDbContext<MLASDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MLASDB")));
+            services.AddDbContext<ORCSDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ORCSDB")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

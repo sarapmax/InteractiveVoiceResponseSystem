@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "New Profession";
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5>New Profession</h5>
+    </div>
+    <div class="card-body">
+        <form asp-controller="Profession" asp-action="Store" method="post">
+            <input type="hidden" name="cCourseId" value="@ViewBag.CourseId">
+            <div class="form-group">
+                <label for="professionName">Profession Name</label>
+                <input type="text" class="form-control" name="name" id="professionName" placeholder="Programmer Job Interview">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+

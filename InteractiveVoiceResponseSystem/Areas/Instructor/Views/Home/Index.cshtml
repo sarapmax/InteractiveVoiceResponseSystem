@@ -1,0 +1,47 @@
+@model IEnumerable<InteractiveVoiceResponseSystem.Areas.Instructor.Models.MLASDB.MlasCourseInfo>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    @foreach(var courseInfo in Model)
+    {
+        <div class="card mt-2">
+            <div class="card-header tw-flex tw-justify-between">
+                <h5 class="tw-text-xl tw-font-bold">@courseInfo.CCourseName</h5>
+                <div>
+                    <a asp-controller="Profession" asp-action="Create" asp-route-courseId="@courseInfo.CCourseId" class="btn btn-secondary btn-sm">New Profession</a>
+                </div>  
+            </div>
+            <div class="card-body">
+                @foreach (var profession in courseInfo.Professions)
+                {
+                    <div class="tw-flex tw-justify-between tw-mb-2 tw-px-4 tw-py-2 tw-border">
+                        <div>
+                            <p>@profession.Name</p>
+                        </div>
+                        <div>
+                            <a asp-controller="Profession" asp-action="Show" asp-route-id="@profession.CProfessionId" class="btn btn-light btn-sm tw-shadow">Open</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    
+    <div id="app">
+        {{ message }}
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                message: "Hello from ourtechroom.com" 
+            }
+        });
+    </script>
+}
