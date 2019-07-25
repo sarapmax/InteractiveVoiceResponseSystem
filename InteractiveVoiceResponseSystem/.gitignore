@@ -2,3 +2,5 @@
 appsettings.json
 
 node_modules/
+wwwroot/css/tailwind.css
+wwwroot/js/dist/*
