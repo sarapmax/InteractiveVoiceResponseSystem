@@ -5,72 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Interactive Voice Response System</title>
 
-    @* <environment include="Development"> *@
-    @*     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" /> *@
-    @* </environment> *@
-    @* <environment exclude="Development"> *@
-    @*     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" *@
-    @*           asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" *@
-    @*           asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" *@
-    @*           crossorigin="anonymous" *@
-    @*           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"/> *@
-    @* </environment> *@
-    @* <link rel="stylesheet" href="~/css/tailwind.css"/> *@
+    <link rel="stylesheet" href="~/css/tailwind.css"/>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body class="bg-gray-100">
+<div class="min-h-screen flex flex-col">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom tw-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="Instructor" asp-controller="Home" asp-action="Index">Interactive Voice Response System</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse">
-                    <ul class="navbar-nav mr-auto">
-                        @* <li><a href="#">Home</a></li> *@
-                    </ul>
-                    <span class="navbar-text">
-                        Tea1
-                    </span>
-                </div>
+        <nav class="bg-white border-b border-gray-300">
+            <div class="container mx-auto flex justify-between items-center py-6">
+                <a class="text-xl"
+                   asp-area="Instructor"
+                   asp-controller="Home"
+                   asp-action="Index">Interactive Voice Response System</a>
+                <ul class="flex">
+                    <li class="mr-4">
+                        <a href="#" class="text-gray-600 hover:text-gray-800">Home</a>
+                    </li>
+                    <li>
+                        <a href="#">Tea1</a>
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3 py-2">
+    <div class="container mx-auto flex-1">
+        <main role="main" class="py-6">
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="bg-white border-t border-gray-300 py-4 text-muted">
+        <div class="container mx-auto">
             &copy; 2019 - Interactive Voice Response System
         </div>
     </footer>
+</div>
 
-@*     <environment include="Development"> *@
-@*         <script src="~/lib/jquery/dist/jquery.js"></script> *@
-@*         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script> *@
-@*     </environment> *@
-@*     <environment exclude="Development"> *@
-@*         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" *@
-@*                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js" *@
-@*                 asp-fallback-test="window.jQuery" *@
-@*                 crossorigin="anonymous" *@
-@*                 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="> *@
-@*         </script> *@
-@*         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" *@
-@*                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" *@
-@*                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal" *@
-@*                 crossorigin="anonymous" *@
-@*                 integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"> *@
-@*         </script> *@
-@*     </environment> *@
-    <script src="~/js/dist/app.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/dist/app.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 
-    @RenderSection("Scripts", required: false)
+@RenderSection("Scripts", required: false)
 </body>
 </html>
