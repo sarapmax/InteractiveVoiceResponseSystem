@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="~/css/tailwind.css"/>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body class="bg-gray-100">
+<body class="font-sans bg-gray-100 text-gray-700">
 <div class="min-h-screen flex flex-col">
     <header>
         <nav class="bg-white border-b border-gray-300">
             <div class="container mx-auto flex justify-between items-center py-6">
-                <a class="text-xl"
+                <a class="text-xl font-semibold"
                    asp-area="Instructor"
                    asp-controller="Home"
                    asp-action="Index">Interactive Voice Response System</a>
@@ -29,7 +29,7 @@
         </nav>
     </header>
     <div class="container mx-auto flex-1">
-        <main role="main" class="py-6">
+        <main role="main" class="py-6" id="app">
             @RenderBody()
         </main>
     </div>

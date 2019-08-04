@@ -16,11 +16,13 @@ namespace InteractiveVoiceResponseSystem.Areas.Instructor.Models.NewVersionHints
         }
 
         public virtual DbSet<Ivrsprofession> Ivrsprofession { get; set; }
-        public virtual DbSet<IvrstestNode> IvrstestNode { get; set; }
+        public virtual DbSet<IvrsselectionQuestion> IvrsselectionQuestion { get; set; }
+        public virtual DbSet<IvrsvpAnswer> IvrsvpAnswers { get; set; }
         public virtual DbSet<QuestionGroupTree> QuestionGroupTree { get; set; }
         public virtual DbSet<QuestionIndex> QuestionIndex { get; set; }
         public virtual DbSet<QuestionList> QuestionList { get; set; }
         public virtual DbSet<QuestionMode> QuestionMode { get; set; }
+        public virtual DbSet<QuestionSelectionIndex> QuestionSelectionIndex { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -57,12 +59,39 @@ namespace InteractiveVoiceResponseSystem.Areas.Instructor.Models.NewVersionHints
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<IvrstestNode>(entity =>
+            modelBuilder.Entity<IvrsselectionQuestion>(entity =>
             {
-                entity.ToTable("IVRSTestNode");
+                entity.HasKey(e => e.CSelectionQuestionId);
 
-                entity.Property(e => e.Name)
+                entity.ToTable("IVRSSelectionQuestion");
+
+                entity.Property(e => e.CSelectionQuestionId).HasColumnName("cSelectionQuestionID");
+
+                entity.Property(e => e.CNodeId)
+                    .HasColumnName("cNodeID")
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CQid)
+                    .HasColumnName("cQID")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<IvrsvpAnswer>(entity =>
+            {
+                entity.HasKey(e => e.CVPAnswerID);
+
+                entity.ToTable("IVRSVPAnswer");
+                
+                entity.Property(e => e.CVPAnswerID).HasColumnName("cVPAnswerID");
+
+                entity.Property(e => e.CSelectionQuestionID)
+                    .HasColumnName("cSelectionQuestionID");
+
+                entity.Property(e => e.Answer)
+                    .HasColumnName("Answer")
+                    .HasMaxLength(255)
                     .IsUnicode(false);
             });
 
@@ -198,6 +227,35 @@ namespace InteractiveVoiceResponseSystem.Areas.Instructor.Models.NewVersionHints
                     .HasColumnName("similarID")
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<QuestionSelectionIndex>(entity =>
+            {
+                entity.HasKey(e => e.CSelectionId);
+
+                entity.Property(e => e.CSelectionId)
+                    .HasColumnName("cSelectionID")
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.BCaseSelect).HasColumnName("bCaseSelect");
+
+                entity.Property(e => e.CQid)
+                    .IsRequired()
+                    .HasColumnName("cQID")
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CResponse)
+                    .HasColumnName("cResponse")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.CSelection)
+                    .HasColumnName("cSelection")
+                    .HasColumnType("text");
+
+                entity.Property(e => e.SSeq).HasColumnName("sSeq");
             });
         }
     }

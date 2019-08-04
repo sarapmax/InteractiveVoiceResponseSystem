@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using InteractiveVoiceResponseSystem.Areas.Instructor.Models.NewVersionHintsDB;
+using InteractiveVoiceResponseSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace InteractiveVoiceResponseSystem.Areas.Instructor.Controllers
 {
@@ -39,36 +41,46 @@ namespace InteractiveVoiceResponseSystem.Areas.Instructor.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public IActionResult Show(int id)
+        public IActionResult Show(int id, string nodeId)
         {
             var profession = _newVersionHintsDbContext.Ivrsprofession.SingleOrDefault(ia => ia.CProfessionId == id);
+            if (profession == null) return NotFound();
 
-            if (profession == null)
+            var node = _newVersionHintsDbContext.QuestionGroupTree.SingleOrDefault(qgt => qgt.CNodeId == nodeId);
+
+            if (node != null)
             {
-                return NotFound();
+                node.SelectionQuestions = 
+                    _newVersionHintsDbContext.IvrsselectionQuestion.Where(isq => isq.CNodeId == nodeId).ToList();
+
+                foreach (var selectionQuestion in node.SelectionQuestions)
+                {
+                    var question = selectionQuestion.QuestionIndex =
+                        _newVersionHintsDbContext.QuestionIndex.SingleOrDefault(qi =>qi.CQid == selectionQuestion.CQid);
+
+                    selectionQuestion.QuestionMode =
+                        _newVersionHintsDbContext.QuestionMode.SingleOrDefault(qm => qm.CQid == selectionQuestion.CQid);
+
+                    selectionQuestion.VPAnswer = _newVersionHintsDbContext.IvrsvpAnswers.SingleOrDefault(iva =>
+                        iva.CSelectionQuestionID == selectionQuestion.CSelectionQuestionId);
+
+                    if (question != null)
+                    {
+                        question.QuestionSelectionIndexes =
+                            _newVersionHintsDbContext.QuestionSelectionIndex.Where(qsi => qsi.CQid == question.CQid).ToList();
+                    }
+                }
+            }
+            
+            ViewBag.treeData = JsonConvert.SerializeObject(ExerciseTree.BuildQuestionTree(_newVersionHintsDbContext, profession.NodeId));
+            ViewBag.professionId = profession.CProfessionId;
+
+            if (node != null)
+            {
+                ViewBag.selectedNodeId = JsonConvert.SerializeObject(node.CNodeId);
             }
 
-            var model = BuildQuestionTree(profession.NodeId);
-
-            return View(model);
-        }
-        
-        private IList<QuestionGroupTree> BuildQuestionTree(string topParent)
-        {
-            var list = _newVersionHintsDbContext.QuestionGroupTree.Where(qgt => qgt.CNodeType == topParent).ToList();
-
-            return FlatToHierarchy(list, topParent);
-        }
-        
-        public IList<QuestionGroupTree> FlatToHierarchy(IEnumerable<QuestionGroupTree> list, string parentId) {
-            return (from i in list 
-                where i.CParentId == parentId 
-                select new QuestionGroupTree {
-                    CNodeId = i.CNodeId, 
-                    CParentId = i.CParentId,
-                    CNodeName = i.CNodeName,
-                    Children = FlatToHierarchy(list, i.CNodeId)
-                }).ToList();
+            return View(node);
         }
     }
 }

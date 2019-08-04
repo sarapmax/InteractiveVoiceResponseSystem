@@ -1,1 +1,13 @@
-﻿
+﻿.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.6s;
+}
+
+.fade-enter,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.bg-smoke-dark {
+    background-color: #2b6cb02e;
+}

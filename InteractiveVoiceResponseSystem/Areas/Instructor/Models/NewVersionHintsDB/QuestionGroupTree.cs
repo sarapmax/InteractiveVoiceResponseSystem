@@ -16,5 +16,9 @@ namespace InteractiveVoiceResponseSystem.Areas.Instructor.Models.NewVersionHints
         
         [NotMapped]
         public IList<QuestionGroupTree> Children { get; set; } = new List<QuestionGroupTree>();
+        [NotMapped]
+        public string NodeIndex { get; set; }
+        [NotMapped]
+        public IList<IvrsselectionQuestion> SelectionQuestions { get; set; }
     }
 }
